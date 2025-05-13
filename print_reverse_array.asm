@@ -11,20 +11,24 @@
 
 .text
 printArr:
-	sll $t0, $a1, 2
-	addi $t0, $t0, -4
+	sll $t0, $a1, 2     
 	add $t0, $t0, $a0
-	move $t1, $a0
+	addi $t0, $t0, -4      # t0 points to last item
+	
+	move $t1, $a0      # t1 points to first item
 	
 	loop:
-    blt $t0, $t1, return
+    blt $t0, $t1, return      # enter loop if t0 points to valid item
+	
 	li $v0, 1
 	lw $a0, 0($t0)
-	syscall
+	syscall      # print item
+	
 	li $v0, 11
 	li $a0, 10
-	syscall
-	addi $t0, $t0, -4
+	syscall      # print newline
+	
+	addi $t0, $t0, -4      # t0 points to previous item
 	j loop
 
 	return:

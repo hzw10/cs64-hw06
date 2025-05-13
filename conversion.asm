@@ -7,17 +7,18 @@
 
 .text
 conv:
-    li $v0, 0
-    li $t0, 0
+    li $v0, 0      # reset return register
+    li $t0, 0      # loop counter
     li $t2, 2
 
     loop:
-    bge $t0, $a2, return
+    bge $t0, $a2, return      # enter loop if t0 < a2
 
-    sub $v0, $v0, $a0
+    sub $v0, $v0, $a0      # v0 = v0 - a0
     sll $t1, $a1, 2
-    add $v0, $v0, $t1
-    blt $a0, $t2, inc 
+    add $v0, $v0, $t1      # v0 = v0 + 4*a1
+
+    blt $a0, $t2, inc      # if (a0 >= 2) a1 = a1 - a0      
     sub $a1, $a1, $a0
 
     inc:

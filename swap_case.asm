@@ -101,59 +101,61 @@ SwapCase:
     sw $s3, 12($sp)
     sw $s4, 16($sp)
     sw $s5, 20($sp)
-    sw $ra, 24($sp)
+    sw $ra, 24($sp)      # store s registers and $ra in stack
 
-    li $s1, 65
-    li $s2, 90
-    li $s3, 97
-    li $s4, 122
-    move $s5 $a0
+    li $s1, 65      # s1 is A ascii
+    li $s2, 90      # s2 is Z ascii
+    li $s3, 97      # s3 is a ascii
+    li $s4, 122      # s4 is z ascii
+    move $s5 $a0      # s5 points to string (first char)
     
     loop:
-    lb $s0, 0($s5)
-    beq $s0, $zero, return
+    lb $s0, 0($s5)      # s0 is char of string
+    beq $s0, $zero, return      # enter loop if s0 not null
 
-    blt $s0, $s1, nxtChar
-    ble $s0, $s2, toLower
+    blt $s0, $s1, nxtChar 
+    ble $s0, $s2, toLower      # s0 is uppercase
 
     bgt $s0, $s4, nxtChar
-    bge $s0, $s3, toUpper
+    bge $s0, $s3, toUpper      # s0 is lowercase
 
     nxtChar:
-    addi $s5, $s5, 1
+    addi $s5, $s5, 1      # s5 points to next char of string
     j loop
 
     toUpper:
     li $v0, 11
     lb $a0, 0($s5) 
-    syscall
+    syscall      # print lowercase char
     li $a0, 10
-    syscall
+    syscall      # print newline
 
     addi $s0, $s0, -32
-    sb $s0, 0($s5)
+    sb $s0, 0($s5)      # change char in string to uppercase
 
     lb $a0, 0($s5)
-    syscall
+    syscall      # print uppercase char
     li $a0, 10
-    syscall
+    syscall      # print newline
+
     jal ConventionCheck
     j nxtChar
 
     toLower:
     li $v0, 11
     lb $a0, 0($s5)
-    syscall
+    syscall      # print uppercase char
     li $a0, 10
-    syscall
+    syscall      # print newline
 
     addi $s0, $s0, 32
-    sb $s0, 0($s5)
+    sb $s0, 0($s5)      # change char in string to lowercase
 
     lb $a0, 0($s5)
-    syscall
+    syscall      # print lowercase char
     li $a0, 10
-    syscall
+    syscall      # print newline
+
     jal ConventionCheck
     j nxtChar
 
@@ -165,7 +167,8 @@ SwapCase:
     lw $s4, 16($sp)
     lw $s5, 20($sp)
     lw $ra, 24($sp)
-    addi $sp, $sp, 28
+    addi $sp, $sp, 28      # get s registers and $ra from stack
+
     # Do not remove the "jr $ra" line below!!!
     # It should be the last line in your function code!
     jr $ra
