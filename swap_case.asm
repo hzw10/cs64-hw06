@@ -107,7 +107,7 @@ SwapCase:
     li $s2, 90      # s2 is Z ascii
     li $s3, 97      # s3 is a ascii
     li $s4, 122      # s4 is z ascii
-    move $s5 $a0      # s5 points to string (first char)
+    move $s5, $a0      # s5 points to string (first char)
     
     loop:
     lb $s0, 0($s5)      # s0 is char of string
