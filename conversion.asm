@@ -7,7 +7,26 @@
 
 .text
 conv:
-    # TODO: Write your function code here
+    li $v0, 0
+    li $t0, 0
+    li $t2, 2
+
+    loop:
+    bge $t0, $a2, return
+
+    sub $v0, $v0, $a0
+    sll $t1, $a1, 2
+    add $v0, $v0, $t1
+    blt $a0, $t2, inc 
+    sub $a1, $a1, $a0
+
+    inc:
+    addi $a0, $a0, 1
+    addi $t0, $t0, 1
+    j loop
+
+    return:
+    jr $ra
 
 main:  # DO NOT MODIFY THE MAIN SECTION
     li $a0, 5
